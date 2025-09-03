@@ -3,230 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hey Dad, Let’s Talk — Memory Journal</title>
-  <meta name="description" content="A guided memory journal to help you capture your dad’s life stories and wisdom. A meaningful gift for Father’s Day, birthdays, and Christmas." />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Hey Dad, Let’s Talk — Memory Journal" />
-  <meta property="og:description" content="A guided memory journal to help you capture your dad’s life stories and wisdom." />
-  <meta property="og:image" content="https://example.com/og/hey-dad.jpg" />
-  <meta property="og:url" content="https://example.com/hey-dad" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Favicon (optional) -->
+  <title>Aleri Books — Single-Column Landing</title>
+  <meta name="description" content="Family Memory Journals plus Puzzle and Skills series. Single-column, mobile-first landing with tabs." />
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- TikTok Pixel (replace PIXEL_ID) -->
-  <!-- 1) Replace YOUR_PIXEL_ID below with your actual TikTok Pixel ID (e.g., C123ABC456DEF78901). -->
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Preload for faster rendering -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="assets/logos/amazon.svg" as="image" type="image/svg+xml">
+  <link rel="preload" href="assets/logos/tiktok.svg" as="image" type="image/svg+xml">
+
+  <!-- TikTok Pixel (replace YOUR_PIXEL_ID) -->
   <script>
     !(function (w, d, t) {
       w.TiktokAnalyticsObject = t;
-      var ttq = (w[t] = w[t] || []);
-      ttq.methods = [
-        "page",
-        "track",
-        "identify",
-        "instances",
-        "debug",
-        "on",
-        "off",
-        "once",
-        "ready",
-        "alias",
-        "group",
-        "enableCookie",
-        "disableCookie",
-      ];
-      ttq.setAndDefer = function (t, e) {
-        t[e] = function () {
-          t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
-        };
-      };
-      for (var i = 0; i < ttq.methods.length; i++) ttq.setAndDefer(ttq, ttq.methods[i]);
-      ttq.instance = function (t) {
-        var e = ttq._i[t] || [];
-        for (var n = 0; n < ttq.methods.length; n++) ttq.setAndDefer(e, ttq.methods[n]);
-        return e;
-      };
-      ttq.load = function (e, n) {
-        var i = "https://analytics.tiktok.com/i18n/pixel/events.js";
-        (ttq._i = ttq._i || {}), (ttq._i[e] = []), (ttq._i[e]._u = i), (ttq._t = ttq._t || {}), (ttq._t[e] = +new Date()), (ttq._o = ttq._o || {}), (ttq._o[e] = n || {});
-        var o = document.createElement("script");
-        (o.type = "text/javascript"), (o.async = !0), (o.src = i);
-        var a = document.getElementsByTagName("script")[0];
-        a.parentNode.insertBefore(o, a);
-      };
-    })(window, document, "ttq");
-    // Initialize your pixel
+      var ttq = w[t] = w[t] || [];
+      ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)));};};
+      for (var i=0;i<ttq.methods.length;i++) ttq.setAndDefer(ttq,ttq.methods[i]);
+      ttq.instance=function(t){var e=ttq._i[t]||[];for (var n=0;n<ttq.methods.length;n++) ttq.setAndDefer(e,ttq.methods[n]);return e;};
+      ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";(ttq._i=ttq._i||{}),(ttq._i[e]=[]),(ttq._i[e]._u=i),(ttq._t=ttq._t||{}),(ttq._t[e]=+new Date()),(ttq._o=ttq._o||{}),(ttq._o[e]=n||{});var o=d.createElement("script");o.type="text/javascript",o.async=!0,o.src=i;var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a);};
+    })(window,document,"ttq");
     ttq.load("YOUR_PIXEL_ID");
-    ttq.page(); // fires PageView
+    ttq.page();
   </script>
-
-  <style>
-    :root {
-      --bg: #0f1220;
-      --card: #151933;
-      --text: #e9ecf8;
-      --muted: #b8bddd;
-      --accent: #7c6cff; /* button */
-      --accent-2: #ffb86b; /* subtle highlight */
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; background: var(--bg); color: var(--text); }
-
-    .container { max-width: 960px; margin: 0 auto; padding: 20px; }
-    .hero { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
-
-    .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 10px; background: rgba(124,108,255,0.12); border: 1px solid rgba(124,108,255,0.25); border-radius: 999px; color: var(--text); }
-
-    h1 { font-size: clamp(28px, 6vw, 44px); line-height: 1.12; margin: 10px 0 8px; }
-    p.lead { font-size: clamp(16px, 3.6vw, 19px); color: var(--muted); margin: 0 0 16px; }
-
-    .card { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 16px; }
-
-    .cover { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); background: #0b0e1a; object-fit: cover; }
-
-    .cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 18px; border-radius: 12px; font-weight: 700; text-decoration: none; background: var(--accent);
-      color: #0a0a12; border: 0; cursor: pointer; transition: transform .06s ease, box-shadow .2s ease; box-shadow: 0 10px 24px rgba(124,108,255,0.35);
-    }
-    .cta:hover { transform: translateY(-1px); }
-    .cta small { font-weight: 600; opacity: 0.85; }
-
-    .bullets { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 16px 0; }
-    .bullet { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; background: var(--card); border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 14px; }
-    .bullet strong { color: #fff; }
-
-    .testimonial { margin: 12px 0 0; font-style: italic; color: #d6dbff; background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.15); padding: 12px; border-radius: 12px; }
-
-    .faq { margin-top: 24px; }
-    details { background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 14px; }
-    details + details { margin-top: 10px; }
-    summary { cursor: pointer; font-weight: 700; }
-    summary::-webkit-details-marker { display: none; }
-
-    .footer { margin: 32px 0 12px; font-size: 12px; color: var(--muted); text-align: center; }
-
-    @media (min-width: 860px) {
-      .hero { grid-template-columns: 1.05fr .95fr; gap: 28px; }
-      .bullets { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
 </head>
 <body>
+  <header class="container topbar">
+    <div class="brand">Aleri Books</div>
+    <button id="themeBtn" class="theme-toggle" aria-label="Toggle theme">Theme</button>
+  </header>
+
+  <!-- tabs for series -->
+  <nav class="container tabs" role="tablist" aria-label="Series">
+    <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
+  </nav>
+
+  <!-- HERO -->
   <main class="container">
-    <!-- HERO -->
-    <section class="hero" aria-label="Hey Dad Journal">
-      <div>
-        <span class="badge">🎁 A thoughtful gift • <span style="opacity:.8">Ships via Amazon</span></span>
-        <h1>Hey Dad, Let’s Talk — a guided memory journal to preserve his stories forever</h1>
-        <p class="lead">Meaningful prompts that spark real conversations. Create a keepsake your family will treasure for generations.</p>
-
-        <!-- Bullets -->
-        <div class="bullets" role="list">
-          <div class="bullet" role="listitem">
-            <div>📘</div>
-            <div>
-              <strong>Guided prompts that are easy to answer</strong>
-              <div class="muted">Short, friendly questions that help Dad open up without pressure.</div>
-            </div>
-          </div>
-          <div class="bullet" role="listitem">
-            <div>🕰️</div>
-            <div>
-              <strong>Capture family history & wisdom</strong>
-              <div class="muted">Record life lessons, milestones, and memories in one beautiful keepsake.</div>
-            </div>
-          </div>
-          <div class="bullet" role="listitem">
-            <div>🎉</div>
-            <div>
-              <strong>Perfect for Father’s Day, birthdays, Christmas</strong>
-              <div class="muted">A heartfelt present that turns into a lasting legacy.</div>
-            </div>
-          </div>
-          <div class="bullet" role="listitem">
-            <div>✅</div>
-            <div>
-              <strong>Made for busy families</strong>
-              <div class="muted">Just a few minutes a day is all it takes.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CTA BUTTON (replace href with your Amazon Attribution link) -->
-        <a id="cta-button" class="cta" href="https://www.amazon.com/dp/ASIN-HERE?tag=AMAZON-ATTRIBUTION-TAG" target="_blank" rel="nofollow noopener">
-          <span>📖 Get it on Amazon</span>
-          <small>Kindle Paperback • Prime eligible</small>
-        </a>
-
-        <p style="margin-top:10px; color:var(--muted); font-size:13px">Also available on Kindle Unlimited (where applicable).</p>
-
-        <div class="testimonial">“This journal helped me connect with my dad like never before. The prompts are gentle and surprisingly deep.” — <strong>Emily R.</strong></div>
-      </div>
-
-      <div>
-        <!-- Replace the image src with your real book cover URL -->
-        <div class="card">
-          <img class="cover" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80&auto=format&fit=crop" alt="Hey Dad, Let’s Talk — book cover" />
-        </div>
-      </div>
+    <section id="hero" class="hero" aria-live="polite">
+      <span class="badge">A thoughtful gift • Ships via Amazon</span>
+      <h1 id="hero-title">Hey Dad, Let’s Talk — a guided memory journal</h1>
+      <p class="lead" id="hero-lead">Meaningful prompts that spark real conversations. Create a keepsake your family will treasure.</p>
+      <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
+      <img id="hero-img" src="assets/covers/dad-large.jpg" alt="Hero cover" loading="eager" decoding="async" />
     </section>
-
-    <!-- FAQ -->
-    <section class="faq" aria-label="FAQ">
-      <details>
-        <summary>What’s inside the journal?</summary>
-        <div style="margin-top:8px;color:var(--muted)">Over 120 guided prompts organized by childhood, family, love, work, and life lessons — plus space for photos and keepsakes.</div>
-      </details>
-      <details>
-        <summary>Is this a good gift?</summary>
-        <div style="margin-top:8px;color:var(--muted)">Absolutely. It’s a meaningful, personal gift for Father’s Day, birthdays, Christmas, or just because.</div>
-      </details>
-      <details>
-        <summary>How long does it take to complete?</summary>
-        <div style="margin-top:8px;color:var(--muted)">As little as a few minutes a day. Many families enjoy filling it out together over coffee or a Sunday call.</div>
-      </details>
-    </section>
-
-    <footer class="footer">
-      <div>© <span id="year"></span> Your Brand. All rights reserved.</div>
-      <div style="margin-top:6px"><a href="/privacy" style="color:#9ea4cc">Privacy Policy</a> • <a href="/terms" style="color:#9ea4cc">Terms</a></div>
-    </footer>
   </main>
 
-  <!-- Optional: JSON-LD for Book/Product (helps Amazon page relevance) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Book",
-    "name": "Hey Dad, Let’s Talk",
-    "author": { "@type": "Person", "name": "Your Name" },
-    "inLanguage": "en",
-    "bookFormat": "https://schema.org/Paperback",
-    "image": "https://example.com/images/hey-dad-cover.jpg",
-    "description": "A guided memory journal that helps you capture your dad’s life stories and wisdom.",
-    "offers": {
-      "@type": "Offer",
-      "url": "https://www.amazon.com/dp/ASIN-HERE?tag=AMAZON-ATTRIBUTION-TAG",
-      "priceCurrency": "USD",
-      "availability": "https://schema.org/InStock"
-    }
-  }
-  </script>
+  <!-- LINK STRIP -->
+  <div class="strip">
+    <div class="inner">
+      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener">
+        <img src="assets/logos/amazon.svg" alt="Amazon" width="20" height="20" loading="lazy" decoding="async"> Amazon
+      </a>
+      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener">
+        <img src="assets/logos/tiktok.svg" alt="TikTok" width="20" height="20" loading="lazy" decoding="async"> TikTok
+      </a>
+    </div>
+  </div>
 
-  <script>
-    // Year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- BOOKS LIST (one column) -->
+  <section class="container" aria-label="Books">
+    <div id="grid" class="grid"></div>
+  </section>
 
-    // Track clicks to Amazon with a custom TikTok event (rename if preferred)
-    var cta = document.getElementById('cta-button');
-    cta.addEventListener('click', function(){
-      if (window.ttq && typeof ttq.track === 'function') {
-        ttq.track('AmazonClick', { label: 'hey-dad' });
-      }
-    });
-  </script>
+  <footer>
+    © <span id="year"></span> Aleri Books · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+  </footer>
+
+  <!-- MODAL -->
+  <dialog class="modal" id="modal">
+    <div class="sheet">
+      <div class="sheet-head">
+        <strong id="m-title">Book title</strong>
+        <button id="m-close" class="ghost">Close</button>
+      </div>
+      <div class="sheet-body">
+        <img id="m-cover" src="" alt="Book image" loading="lazy" decoding="async" />
+        <p id="m-desc" class="desc"></p>
+        <div id="m-thumbs" class="thumbs"></div>
+        <div class="actions">
+          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener">📘 Paperback</a>
+          <a id="m-buy-hc" class="cta ghost" target="_blank" rel="nofollow noopener">📗 Hardcover</a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- external JS -->
+  <script src="app.js"></script>
 </body>
 </html>
 

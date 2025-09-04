@@ -243,3 +243,36 @@ footer{margin:22px 0 10px;color:var(--muted);font-size:12px;text-align:center}
 /* Utils */
 .hidden{display:none!important}
 .center{text-align:center}
+/* ================= CUSTOM REQUEST ================= */
+
+/* Desktop: заливка ленты градиентом (фон блока strip) */
+@media (min-width: 769px){
+  .strip{
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff; /* белый текст поверх градиента */
+  }
+  .strip .chip{
+    background: rgba(255,255,255,0.2); /* полупрозрачный фон */
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .strip .chip img{
+    filter: brightness(0) invert(1); /* чтобы логотипы стали белыми */
+  }
+}
+
+/* Mobile: заливаем градиентом сами кнопки (чипы) */
+@media (max-width: 768px){
+  .strip{
+    background: var(--linkbar); /* обычный фон, как раньше */
+  }
+  .strip .chip{
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+  }
+  .strip .chip img{
+    filter: brightness(0) invert(1); /* белые иконки */
+  }
+}

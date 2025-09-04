@@ -1,6 +1,6 @@
-/* ========================= Aleri Books — app.js (clean from scratch) ========================= */
+/* ========================= Aleri Books — app.js (clean) ========================= */
 
-/* ---------- DATA (safe HTML strings, no JSX) ---------- */
+/* ---------- DATA (safe HTML strings) ---------- */
 const SERIES = {
   journals: {
     title: "Memory Journals",
@@ -141,61 +141,50 @@ const el = {
   mClose: $("#m-close"),
 };
 
-/* ---------- INIT ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  if (el.year) el.year.textContent = new Date().getFullYear();
+/* ================= THEME: system auto + manual invert ================= */
+const THEME_STORAGE_KEY = "theme"; // "light" | "dark" | "auto"
 
-  // route-aware initial render
-  const route = routeFromPath(location.pathname);
-  if (route) {
-    selectTab(route.series);
-    renderSeries(route.series, route.book);
-    if (new URLSearchParams(location.search).get("open") === "1") {
-      openModal(route.series, route.book);
-    }
-  } else {
-    renderSeries(currentSeries);
-  }
+function getSystemTheme(){
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
 
-  $("#themeBtn")?.addEventListener("click", toggleTheme);
-
-  $$(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const key = tab.dataset.series;
-      if (!key) return;
-      selectTab(key);
-      renderSeries(key);
-    });
-  });
-
-  // delegated click for Preview & Buy
-  el.grid?.addEventListener("click", (e) => {
-    const btn = e.target.closest('[data-action="preview"]');
-    if (!btn) return;
-    const series = btn.dataset.series || currentSeries;
-    const bookId = btn.dataset.book;
-    if (series && bookId) openModal(series, bookId);
-  });
-
-  // modal close
-  el.mClose?.addEventListener("click", closeModal);
-  el.modal?.addEventListener("click", (e) => { if (e.target === el.modal) closeModal(); });
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-});
-
-/* ---------- THEME ---------- */
-function toggleTheme(){
+function applyTheme(mode){
   const root = document.documentElement;
-  const dark = root.getAttribute("data-theme") === "dark";
-  root.setAttribute("data-theme", dark ? "light" : "dark");
+  let effective = mode;
+  if (mode === "auto") effective = getSystemTheme();
+  root.setAttribute("data-theme", effective);
+  updateThemeButtonLabel(mode, effective);
 }
 
-/* ---------- TABS ---------- */
-function selectTab(key){
-  $$(".tab").forEach((t) =>
-    t.setAttribute("aria-selected", t.dataset.series === key ? "true" : "false")
-  );
+function initTheme(){
+  const saved = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+  applyTheme(saved);
+  if (saved === "auto" && window.matchMedia){
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const handler = () => applyTheme("auto");
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+  }
 }
+
+function toggleTheme(){
+  const currentMode = localStorage.getItem(THEME_STORAGE_KEY) || "auto";
+  const effective = (currentMode === "auto") ? getSystemTheme() : currentMode;
+  const next = (effective === "light") ? "dark" : "light";
+  localStorage.setItem(THEME_STORAGE_KEY, next);
+  applyTheme(next);
+}
+
+function updateThemeButtonLabel(mode, effective){
+  const btn = document.getElementById("themeBtn");
+  if (!btn) return;
+  const map = { light: "Light", dark: "Dark", auto: `Auto (${effective})` };
+  btn.textContent = map[mode] || "Theme";
+  btn.setAttribute("aria-pressed", effective === "dark" ? "true" : "false");
+}
+/* ===================================================================== */
 
 /* ---------- ROUTING (/dad|/mom|/grandpa|/grandma) ---------- */
 function routeFromPath(pathname){
@@ -265,52 +254,82 @@ function renderBookCard(seriesKey, id, book){
   `;
 }
 
-/* ---------- MODAL ---------- */
+/* ---------- MODAL: open/close + UX helpers ---------- */
+function lockScroll(){ document.body.style.overflow = "hidden"; }
+function unlockScroll(){ document.body.style.overflow = ""; }
+
+function trapFocus(container){
+  const nodes = container.querySelectorAll(
+    'a,button,input,textarea,select,[tabindex]:not([tabindex="-1"])'
+  );
+  const list = Array.from(nodes);
+  if (!list.length) return;
+
+  let idx = 0;
+  list[0].focus();
+
+  function onKey(e){
+    if (e.key !== "Tab") return;
+    e.preventDefault();
+    idx = (idx + (e.shiftKey ? -1 : 1) + list.length) % list.length;
+    list[idx].focus();
+  }
+  container.__trapHandler = onKey;
+  container.addEventListener("keydown", onKey);
+}
+
+function untrapFocus(container){
+  if (container.__trapHandler){
+    container.removeEventListener("keydown", container.__trapHandler);
+    delete container.__trapHandler;
+  }
+}
+
 function openModal(seriesKey, bookId){
   const series = SERIES[seriesKey];
   const book = series?.books?.[bookId];
-  if (!book || !el.modal) return;
+  if (!book) return;
 
-  if (el.mTitle) el.mTitle.textContent = book.title || "";
-
-  if (el.mCover){
-    el.mCover.src = book.img?.lg || "";
-    el.mCover.alt = book.title || "Book image";
-    el.mCover.sizes = "(max-width: 768px) 90vw, 420px";
+  // Fallback: если <dialog> не поддерживается — сразу открыть Amazon
+  if (!el.modal || typeof el.modal.showModal !== "function"){
+    const url = book.amazon?.pb || series?.strip?.amazon || "https://www.amazon.com/";
+    window.open(url, "_blank", "noopener,noreferrer");
+    return;
   }
 
-  if (el.mDesc) el.mDesc.innerHTML = book.desc || "";
+  el.mTitle.textContent = book.title || "";
+  el.mCover.src = book.img?.lg || "";
+  el.mCover.alt = book.title || "Book image";
+  el.mCover.sizes = "(max-width: 768px) 90vw, 420px";
 
-  if (el.mThumbs){
-    el.mThumbs.innerHTML = (book.pages || []).map((src) =>
-      `<img src="${src}" alt="Preview page" loading="lazy" decoding="async" width="92" height="120">`
-    ).join("");
-  }
+  el.mDesc.innerHTML = book.desc || "";
 
-  if (el.mBuyPb){
-    if (book.amazon?.pb){
-      el.mBuyPb.href = book.amazon.pb;
-      el.mBuyPb.style.display = "inline-flex";
-    } else el.mBuyPb.style.display = "none";
-  }
-  if (el.mBuyHc){
-    if (book.amazon?.hc){
-      el.mBuyHc.href = book.amazon.hc;
-      el.mBuyHc.style.display = "inline-flex";
-    } else el.mBuyHc.style.display = "none";
-  }
+  el.mThumbs.innerHTML = (book.pages || [])
+    .map((src) => `<img src="${src}" alt="Preview page" loading="lazy" decoding="async" width="92" height="120">`)
+    .join("");
+
+  if (book.amazon?.pb){ el.mBuyPb.href = book.amazon.pb; el.mBuyPb.style.display = "inline-flex"; }
+  else el.mBuyPb.style.display = "none";
+
+  if (book.amazon?.hc){ el.mBuyHc.href = book.amazon.hc; el.mBuyHc.style.display = "inline-flex"; }
+  else el.mBuyHc.style.display = "none";
 
   updateCtas(seriesKey, bookId);
 
-  if (typeof el.modal.showModal === "function") el.modal.showModal();
-  else el.modal.setAttribute("open", "");
+  el.modal.showModal();
+  lockScroll();
+  trapFocus(el.modal);
+
+  // Analytics example (optional)
+  try { window.ttq?.track?.('ViewContent', { content_name: book.title }); } catch(e){}
 }
 window.openModal = openModal;
 
 function closeModal(){
   if (!el.modal) return;
-  if (typeof el.modal.close === "function") el.modal.close();
-  else el.modal.removeAttribute("open");
+  try{ el.modal.close(); }catch(_){ el.modal.removeAttribute("open"); }
+  untrapFocus(el.modal);
+  unlockScroll();
 }
 
 /* ---------- UTILS ---------- */
@@ -318,5 +337,63 @@ function escapeHtml(s=""){
   return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 }
 
+/* ---------- INIT ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  // Theme
+  initTheme();
+
+  if (el.year) el.year.textContent = new Date().getFullYear();
+
+  // Route-aware initial render
+  const route = routeFromPath(location.pathname);
+  if (route) {
+    selectTab(route.series);
+    renderSeries(route.series, route.book);
+    if (new URLSearchParams(location.search).get("open") === "1") {
+      openModal(route.series, route.book);
+    }
+  } else {
+    renderSeries(currentSeries);
+  }
+
+  // Theme toggle button
+  $("#themeBtn")?.addEventListener("click", toggleTheme);
+
+  // Tabs click
+  $$(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.series;
+      if (!key) return;
+      selectTab(key);
+      renderSeries(key);
+    });
+  });
+
+  // Delegated click for Preview & Buy
+  el.grid?.addEventListener("click", (e) => {
+    const btn = e.target.closest('[data-action="preview"]');
+    if (!btn) return;
+    const series = btn.dataset.series || currentSeries;
+    const bookId = btn.dataset.book;
+    if (series && bookId) openModal(series, bookId);
+  });
+
+  // Modal close handlers
+  el.mClose?.addEventListener("click", closeModal);
+  el.modal?.addEventListener("click", (e) => { if (e.target === el.modal) closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+  // Thumbnails swap
+  el.mThumbs?.addEventListener("click", (e) => {
+    const img = e.target.closest("img");
+    if (!img) return;
+    el.mCover.src = img.src;
+  });
+
+  // Light zoom on cover
+  el.mCover?.addEventListener("click", () => {
+    el.mCover.classList.toggle("zoomed");
+  });
+});
 
 

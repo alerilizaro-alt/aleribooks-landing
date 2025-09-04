@@ -243,3 +243,16 @@ footer{margin:22px 0 10px;color:var(--muted);font-size:12px;text-align:center}
 /* Utils */
 .hidden{display:none!important}
 .center{text-align:center}
+/* ================= CHIP COLORS (как бейдж) ================= */
+.strip .chip{
+  background:linear-gradient(to right,
+    rgba(123,108,255,.16),
+    rgba(255,184,107,.16));
+  border:1px solid var(--stroke);
+  color:var(--text);
+  backdrop-filter:none; /* убираем блюр, чтобы градиент не мутнел */
+}
+
+.strip .chip img{
+  filter:none; /* иконки оставляем как есть */
+}

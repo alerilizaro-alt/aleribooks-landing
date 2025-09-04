@@ -1,6 +1,6 @@
-/* ========================= Aleri Books — app.js (clean) ========================= */
+/* ========================= Aleri Books — app.js (clean from scratch) ========================= */
 
-/* Descriptions as safe HTML strings (no JSX) */
+/* ---------- DATA (safe HTML strings, no JSX) ---------- */
 const SERIES = {
   journals: {
     title: "Memory Journals",
@@ -115,11 +115,13 @@ const SERIES = {
   lifeskills: { title:"Life Skills for Teens", lead:"Coming soon", strip:{}, books:{} }
 };
 
-/* --- Globals --- */
+/* ---------- STATE / SHORTCUTS ---------- */
 let currentSeries = "journals";
 let currentBookId = null;
-const $ = (s) => document.querySelector(s);
+
+const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));
+
 const el = {
   heroTitle: $("#hero-title"),
   heroLead: $("#hero-lead"),
@@ -139,29 +141,11 @@ const el = {
   mClose: $("#m-close"),
 };
 
-/* Prefer AVIF → WebP → original; expose as src/srcset */
-function bestImage(url){
-  if (!url) return { src:"", srcset:"" };
-  const base = url.replace(/\.(jpe?g|png|webp|avif)$/i, "");
-  const candidates = [`${base}.avif`, `${base}.webp`, url];
-  return {
-    src: url,
-    srcset: `${candidates[0]} 1x, ${candidates[1]} 1x, ${candidates[2]} 1x`
-  };
-}
-
-/* Routing helper for /dad | /mom | /grandpa | /grandma */
-function routeFromPath(pathname){
-  const first = (pathname || "/").split("/").filter(Boolean)[0] || "";
-  const map = { dad:"dad", mom:"mom", grandpa:"grandpa", grandma:"grandma" };
-  if (map[first]) return { series:"journals", book: map[first] };
-  return null;
-}
-
+/* ---------- INIT ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   if (el.year) el.year.textContent = new Date().getFullYear();
 
-  // Route-aware initial render
+  // route-aware initial render
   const route = routeFromPath(location.pathname);
   if (route) {
     selectTab(route.series);
@@ -175,15 +159,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("#themeBtn")?.addEventListener("click", toggleTheme);
 
-  $$(".tab").forEach((tab) =>
+  $$(".tab").forEach((tab) => {
     tab.addEventListener("click", () => {
       const key = tab.dataset.series;
       if (!key) return;
       selectTab(key);
       renderSeries(key);
-    })
-  );
+    });
+  });
 
+  // delegated click for Preview & Buy
   el.grid?.addEventListener("click", (e) => {
     const btn = e.target.closest('[data-action="preview"]');
     if (!btn) return;
@@ -192,23 +177,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (series && bookId) openModal(series, bookId);
   });
 
+  // modal close
   el.mClose?.addEventListener("click", closeModal);
   el.modal?.addEventListener("click", (e) => { if (e.target === el.modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 });
 
+/* ---------- THEME ---------- */
 function toggleTheme(){
   const root = document.documentElement;
   const dark = root.getAttribute("data-theme") === "dark";
   root.setAttribute("data-theme", dark ? "light" : "dark");
 }
 
+/* ---------- TABS ---------- */
 function selectTab(key){
   $$(".tab").forEach((t) =>
     t.setAttribute("aria-selected", t.dataset.series === key ? "true" : "false")
   );
 }
 
+/* ---------- ROUTING (/dad|/mom|/grandpa|/grandma) ---------- */
+function routeFromPath(pathname){
+  const first = (pathname || "/").split("/").filter(Boolean)[0] || "";
+  const map = { dad:"dad", mom:"mom", grandpa:"grandpa", grandma:"grandma" };
+  if (map[first]) return { series:"journals", book: map[first] };
+  return null;
+}
+
+/* ---------- RENDER ---------- */
 function renderSeries(seriesKey, preferredBookId){
   currentSeries = seriesKey;
   const series = SERIES[seriesKey];
@@ -221,14 +218,13 @@ function renderSeries(seriesKey, preferredBookId){
   const firstBook = series.books[firstBookId];
 
   if (firstBook && el.heroImg){
-    const { src, srcset } = bestImage(firstBook.img?.lg || "");
-    el.heroImg.src = src;
-    el.heroImg.srcset = srcset;
+    el.heroImg.src = firstBook.img?.lg || "";
     el.heroImg.alt = firstBook?.title || "Hero cover";
     el.heroImg.sizes = "(max-width: 768px) 85vw, 420px";
   }
 
   updateCtas(seriesKey, firstBookId);
+
   if (el.grid) el.grid.innerHTML = renderGridHtml(seriesKey, series.books);
 }
 
@@ -236,16 +232,21 @@ function updateCtas(seriesKey, bookId){
   const series = SERIES[seriesKey] || {};
   const book = series.books?.[bookId] || null;
   const url = book?.amazon?.pb || series.strip?.amazon || "https://www.amazon.com/";
-  if (el.heroCta) el.heroCta.href = url;
+
+  if (el.heroCta)   el.heroCta.href   = url;
   if (el.linkAmazon) el.linkAmazon.href = series.strip?.amazon || url;
   if (el.linkTikTok) el.linkTikTok.href = series.strip?.tiktok || "#";
+
   const sticky = document.querySelector(".cta--sticky");
   if (sticky) sticky.setAttribute("href", url);
+
   currentBookId = bookId || currentBookId;
 }
 
 function renderGridHtml(seriesKey, books = {}){
-  return Object.entries(books).map(([id, book]) => renderBookCard(seriesKey, id, book)).join("");
+  return Object.entries(books)
+    .map(([id, book]) => renderBookCard(seriesKey, id, book))
+    .join("");
 }
 
 function renderBookCard(seriesKey, id, book){
@@ -264,6 +265,7 @@ function renderBookCard(seriesKey, id, book){
   `;
 }
 
+/* ---------- MODAL ---------- */
 function openModal(seriesKey, bookId){
   const series = SERIES[seriesKey];
   const book = series?.books?.[bookId];
@@ -272,9 +274,7 @@ function openModal(seriesKey, bookId){
   if (el.mTitle) el.mTitle.textContent = book.title || "";
 
   if (el.mCover){
-    const prefer = bestImage(book.img?.lg || "");
-    el.mCover.src = prefer.src;
-    el.mCover.srcset = prefer.srcset;
+    el.mCover.src = book.img?.lg || "";
     el.mCover.alt = book.title || "Book image";
     el.mCover.sizes = "(max-width: 768px) 90vw, 420px";
   }
@@ -313,8 +313,10 @@ function closeModal(){
   else el.modal.removeAttribute("open");
 }
 
+/* ---------- UTILS ---------- */
 function escapeHtml(s=""){
   return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 }
+
 
 

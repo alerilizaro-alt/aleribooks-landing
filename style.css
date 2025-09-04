@@ -459,3 +459,61 @@ footer{margin:22px 0 10px;color:var(--muted);font-size:12px;text-align:center}
   .cta, .cta-outline, .cta-vertical{ transition: none; }
   .cta::after, .cta-outline::after, .cta-vertical::after{ display:none; }
 }
+/* ===== Desktop split hero (>= 1024px) ===== */
+@media (min-width: 1024px){
+  .layout-split{
+    display:grid;
+    grid-template-columns: 1fr min(420px, 36vw); /* слева изображение, справа «контент-колонка» */
+    gap: 22px;
+    align-items: start;
+  }
+  .hero--split{ display: contents; } /* чтобы media/side заняли колонки родителя */
+
+  .hero-media{
+    grid-column: 1;
+  }
+  .hero-media img{
+    width: 100%;
+    height: auto;
+    max-height: 72vh;
+    object-fit: contain;
+    border-radius: 14px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-side{
+    grid-column: 2;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  /* порядок внутри правой колонки: бейдж → CTA → title → lead */
+  .hero-side .badge{ order: 1; justify-self: start; }
+  .hero-side .cta{ order: 2; width: 100%; max-width: none; margin: 0; }
+  .hero-side h1{ order: 3; margin: 8px 0 2px; }
+  .hero-side .lead{ order: 4; }
+
+  /* Tabs «под правой колонкой» (не на всю ширину) */
+  .tabs--under-hero{
+    grid-column: 2;
+    justify-content: flex-start;
+    padding-top: 6px;
+  }
+
+  /* Приводим Topbar/бренд к той же «линейке» (правой колонке) */
+  .topbar{
+    display: grid;
+    grid-template-columns: 1fr min(420px, 36vw);
+    align-items: center;
+    gap: 22px;
+  }
+  .topbar .brand{ grid-column: 2; }     /* бренд начинается там же, где badge/вкладки */
+  .topbar .theme-toggle{ justify-self: end; }
+
+  /* Заголовки/полоска ссылок тоже можно привязать к правой колонке при желании:
+     .strip .inner, section.container > h1, section.container > p.lead { max-width: min(420px, 36vw); margin-left: auto; }
+     — но чаще достаточно tabs и brand.
+  */
+}
+
+/* ===== Mobile & tablet остаются как были ===== */

@@ -3,100 +3,87 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aleri Books — Single-Column Landing</title>
-  <meta name="description" content="Family Memory Journals plus Puzzle and Skills series. Single-column, mobile-first landing with tabs." />
-  <link rel="icon" href="/favicon.ico" />
-
-  <!-- External stylesheet -->
+  <title>Aleri Books — Memory Journals & Puzzles</title>
+  <meta name="description" content="Guided memory journals for family stories + large-print puzzle books.">
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Preload for faster rendering -->
-  <link rel="preload" href="style.css" as="style">
-  <link rel="preload" href="assets/logos/amazon.svg" as="image" type="image/svg+xml">
-  <link rel="preload" href="assets/logos/tiktok.svg" as="image" type="image/svg+xml">
-
-  <!-- TikTok Pixel (replace YOUR_PIXEL_ID) -->
-  <script>
-    !(function (w, d, t) {
-      w.TiktokAnalyticsObject = t;
-      var ttq = w[t] = w[t] || [];
-      ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
-      ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)));};};
-      for (var i=0;i<ttq.methods.length;i++) ttq.setAndDefer(ttq,ttq.methods[i]);
-      ttq.instance=function(t){var e=ttq._i[t]||[];for (var n=0;n<ttq.methods.length;n++) ttq.setAndDefer(e,ttq.methods[n]);return e;};
-      ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";(ttq._i=ttq._i||{}),(ttq._i[e]=[]),(ttq._i[e]._u=i),(ttq._t=ttq._t||{}),(ttq._t[e]=+new Date()),(ttq._o=ttq._o||{}),(ttq._o[e]=n||{});var o=d.createElement("script");o.type="text/javascript",o.async=!0,o.src=i;var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a);};
-    })(window,document,"ttq");
-    ttq.load("YOUR_PIXEL_ID");
-    ttq.page();
-  </script>
 </head>
 <body>
+  <!-- Topbar -->
   <header class="container topbar">
     <div class="brand">Aleri Books</div>
-    <button id="themeBtn" class="theme-toggle" aria-label="Toggle theme">Theme</button>
+    <button id="themeBtn" class="theme-toggle" type="button">Theme</button>
   </header>
 
-  <!-- tabs for series -->
-  <nav class="container tabs" role="tablist" aria-label="Series">
-    <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
-  </nav>
+  <!-- Tabs (сверху, не на всю ширину; на десктопе выровнены по правой колонке) -->
+  <main class="container layout-split">
+    <nav class="tabs tabs--top" role="tablist" aria-label="Series">
+      <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
+      <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
+      <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
+      <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
+    </nav>
 
-  <!-- HERO -->
-  <main class="container">
-    <section id="hero" class="hero" aria-live="polite">
-      <span class="badge">A thoughtful gift • Ships via Amazon</span>
-      <h1 id="hero-title">Hey Dad, Let’s Talk — a guided memory journal</h1>
-      <p class="lead" id="hero-lead">Meaningful prompts that spark real conversations. Create a keepsake your family will treasure.</p>
-      <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
-      <img id="hero-img" src="assets/covers/dad-large.jpg" alt="Hero cover" loading="eager" decoding="async" />
+    <!-- Hero -->
+    <section id="hero" class="hero hero--split" aria-live="polite">
+      <!-- левая колонка: изображение -->
+      <div class="hero-media">
+        <img id="hero-img" src="" alt="Hero cover" />
+      </div>
+
+      <!-- правая колонка: заголовок → описание → кнопка -->
+      <div class="hero-side">
+        <h1 id="hero-title">Loading…</h1>
+        <p class="lead" id="hero-lead"></p>
+        <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener noreferrer">📖 Get it on Amazon</a>
+      </div>
     </section>
   </main>
 
   <!-- LINK STRIP -->
   <div class="strip">
     <div class="inner">
-      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener">
-        <img src="assets/logos/amazon.svg" alt="Amazon" width="20" height="20" loading="lazy" decoding="async"> Amazon
+      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener noreferrer">
+        <img src="assets/logos/amazon.svg" alt="" width="20" height="20" loading="lazy" decoding="async" onerror="this.remove()">
+        Amazon
       </a>
-      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener">
-        <img src="assets/logos/tiktok.svg" alt="TikTok" width="20" height="20" loading="lazy" decoding="async"> TikTok
+      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener noreferrer">
+        <img src="assets/logos/tiktok.svg" alt="" width="20" height="20" loading="lazy" decoding="async" onerror="this.remove()">
+        TikTok
       </a>
     </div>
   </div>
 
-  <!-- BOOKS LIST (one column) -->
+  <!-- GRID -->
   <section class="container" aria-label="Books">
     <div id="grid" class="grid"></div>
   </section>
 
-  <footer>
-    © <span id="year"></span> Aleri Books · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
-  </footer>
+  <!-- FOOTER -->
+  <footer>© <span id="year"></span> Aleri Books · <a href="/privacy">Privacy</a></footer>
 
   <!-- MODAL -->
   <dialog class="modal" id="modal">
     <div class="sheet">
       <div class="sheet-head">
         <strong id="m-title">Book title</strong>
-        <button id="m-close" class="ghost">Close</button>
+        <button id="m-close" class="ghost" type="button">Close</button>
       </div>
       <div class="sheet-body">
-        <img id="m-cover" src="" alt="Book image" loading="lazy" decoding="async" />
+        <img id="m-cover" src="" alt="Book image" width="800" height="1200" loading="eager" decoding="async">
         <p id="m-desc" class="desc"></p>
         <div id="m-thumbs" class="thumbs"></div>
         <div class="actions">
-          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener">📘 Paperback</a>
-          <a id="m-buy-hc" class="cta ghost" target="_blank" rel="nofollow noopener">📗 Hardcover</a>
+          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener noreferrer">📘 Paperback</a>
+          <a id="m-buy-hc" class="cta" target="_blank" rel="nofollow noopener noreferrer">📗 Hardcover</a>
         </div>
       </div>
     </div>
   </dialog>
 
-  <!-- external JS -->
-  <script src="app.js"></script>
+  <!-- Sticky CTA (мобилка) -->
+  <a href="#" class="cta cta--sticky" target="_blank" rel="nofollow noopener noreferrer">📖 Get it on Amazon</a>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
 

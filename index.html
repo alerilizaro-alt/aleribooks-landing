@@ -14,54 +14,48 @@
     <button id="themeBtn" class="theme-toggle" type="button">Theme</button>
   </header>
 
-  <!-- Tabs (сверху, не на всю ширину; на десктопе выровнены по правой колонке) -->
-  <main class="container layout-split">
-    <nav class="tabs tabs--top" role="tablist" aria-label="Series">
-      <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
-      <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
-      <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
-      <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
-    </nav>
+  <!-- Tabs -->
+  <nav class="container tabs" role="tablist" aria-label="Series">
+    <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
+    <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
+  </nav>
 
-    <!-- Hero -->
-    <section id="hero" class="hero hero--split" aria-live="polite">
-      <!-- левая колонка: изображение -->
-      <div class="hero-media">
-        <img id="hero-img" src="" alt="Hero cover" />
-      </div>
-
-      <!-- правая колонка: заголовок → описание → кнопка -->
-      <div class="hero-side">
-        <h1 id="hero-title">Loading…</h1>
-        <p class="lead" id="hero-lead"></p>
-        <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener noreferrer">📖 Get it on Amazon</a>
-      </div>
+  <!-- Hero -->
+  <main class="container">
+    <section id="hero" class="hero" aria-live="polite">
+      <span class="badge">A thoughtful gift • Ships via Amazon</span>
+      <h1 id="hero-title">Loading…</h1>
+      <p class="lead" id="hero-lead"></p>
+      <!-- фиксированные размеры для лучшего LCP/CLS -->
+      <img id="hero-img" src="" alt="Hero cover" width="800" height="1200" decoding="async" />
+      <!-- по умолчанию «капсула»; можно накинуть .cta-outline / .cta-soft / .cta-vertical -->
+      <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
     </section>
   </main>
 
-  <!-- LINK STRIP -->
+  <!-- Link strip -->
   <div class="strip">
     <div class="inner">
-      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener noreferrer">
-        <img src="assets/logos/amazon.svg" alt="" width="20" height="20" loading="lazy" decoding="async" onerror="this.remove()">
-        Amazon
+      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener">
+        <img src="assets/logos/amazon.svg" alt="Amazon" width="20" height="20" loading="lazy" decoding="async" onerror="this.style.display='none'"> Amazon
       </a>
-      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener noreferrer">
-        <img src="assets/logos/tiktok.svg" alt="" width="20" height="20" loading="lazy" decoding="async" onerror="this.remove()">
-        TikTok
+      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener">
+        <img src="assets/logos/tiktok.svg" alt="TikTok" width="20" height="20" loading="lazy" decoding="async" onerror="this.style.display='none'"> TikTok
       </a>
     </div>
   </div>
 
-  <!-- GRID -->
+  <!-- Grid -->
   <section class="container" aria-label="Books">
     <div id="grid" class="grid"></div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer>© <span id="year"></span> Aleri Books · <a href="/privacy">Privacy</a></footer>
 
-  <!-- MODAL -->
+  <!-- Modal -->
   <dialog class="modal" id="modal">
     <div class="sheet">
       <div class="sheet-head">
@@ -69,21 +63,20 @@
         <button id="m-close" class="ghost" type="button">Close</button>
       </div>
       <div class="sheet-body">
-        <img id="m-cover" src="" alt="Book image" width="800" height="1200" loading="eager" decoding="async">
+        <img id="m-cover" src="" alt="Book image" decoding="async" />
         <p id="m-desc" class="desc"></p>
         <div id="m-thumbs" class="thumbs"></div>
         <div class="actions">
-          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener noreferrer">📘 Paperback</a>
-          <a id="m-buy-hc" class="cta" target="_blank" rel="nofollow noopener noreferrer">📗 Hardcover</a>
+          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener">📘 Paperback</a>
+          <a id="m-buy-hc" class="cta ghost" target="_blank" rel="nofollow noopener">📗 Hardcover</a>
         </div>
       </div>
     </div>
   </dialog>
 
-  <!-- Sticky CTA (мобилка) -->
-  <a href="#" class="cta cta--sticky" target="_blank" rel="nofollow noopener noreferrer">📖 Get it on Amazon</a>
+  <!-- Sticky CTA (на мобилке) -->
+  <a href="#" class="cta cta--sticky cta-soft" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
 
   <script src="app.js" defer></script>
 </body>
 </html>
-

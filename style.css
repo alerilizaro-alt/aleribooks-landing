@@ -316,3 +316,58 @@ footer{margin:22px 0 10px;color:var(--muted);font-size:12px;text-align:center}
     padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   }
 }
+/* ==== ЕДИНЫЙ ГРАДИЕНТ ДЛЯ ВСЕХ КНОПОК (как договорились) ==== */
+:root{ --cta-grad: linear-gradient(to right, rgba(123,108,255,.16), rgba(255,184,107,.16)); }
+.cta, .cta--sticky, .book .btn, .actions .cta{
+  background: var(--cta-grad); color: var(--text);
+  border:1px solid var(--stroke); border-radius:9999px; box-shadow: var(--shadow-sm);
+  transition: transform .15s, box-shadow .15s;
+}
+
+/* ==== DESKTOP SPLIT: контейнер + tabs + hero ==== */
+@media (min-width:1024px){
+  :root{ --side: min(420px, 36vw); }
+
+  /* 1) ВКЛЮЧАЕМ ГРИД У ОБЩЕГО КОНТЕЙНЕРА */
+  .layout-split{
+    display:grid;
+    grid-template-columns: 1fr var(--side);
+    grid-auto-rows: auto;
+    column-gap:22px;
+    align-items:start;
+  }
+
+  /* 2) Tabs — В ПРАВОЙ КОЛОНКЕ СВЕРХУ */
+  .tabs{
+    grid-column:2; grid-row:1;
+    width:100%; margin:0; justify-content:flex-start;
+  }
+
+  /* 3) Hero — второй ряд, две колонки: слева IMG, справа текст+CTA */
+  #hero{
+    grid-column:1 / span 2; grid-row:2;
+    display:grid !important;
+    grid-template-columns: 1fr var(--side);
+    column-gap:22px;
+    align-items:start;
+  }
+
+  /* Раскладка элементов внутри hero */
+  #hero-img{
+    grid-column:1; grid-row:1 / span 3;
+    width:100%; height:auto; max-height:72vh; object-fit:contain; margin:0;
+  }
+  #hero-title{ grid-column:2; grid-row:1; margin:8px 0 0; }
+  #hero-lead { grid-column:2; grid-row:2; }
+  #hero-cta  { grid-column:2; grid-row:3; width:100%; max-width:none; margin:10px 0 0; }
+}
+
+/* Мобилка: без изменений, sticky с тем же градиентом */
+@media (max-width:768px){
+  .cta--sticky{
+    position:fixed; left:50%; transform:translateX(-50%);
+    bottom:12px; width:90%; max-width:440px; padding:14px 22px;
+    border-radius:9999px; z-index:1000; box-shadow:0 12px 26px rgba(108,124,255,.45);
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+}

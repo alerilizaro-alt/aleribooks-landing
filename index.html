@@ -1,82 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aleri Books — Memory Journals & Puzzles</title>
-  <meta name="description" content="Guided memory journals for family stories + large-print puzzle books.">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!-- Topbar -->
-  <header class="container topbar">
-    <div class="brand">Aleri Books</div>
-    <button id="themeBtn" class="theme-toggle" type="button">Theme</button>
-  </header>
-
-  <!-- Tabs -->
-  <nav class="container tabs" role="tablist" aria-label="Series">
-    <button class="tab" role="tab" aria-selected="true" data-series="journals">Memory Journals</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="sudoku">Sudoku</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="wordsearch">Wordsearch</button>
-    <button class="tab" role="tab" aria-selected="false" data-series="lifeskills">Life Skills for Teens</button>
-  </nav>
-
-  <!-- Hero -->
-  <main class="container">
-    <section id="hero" class="hero" aria-live="polite">
-      <span class="badge">A thoughtful gift • Ships via Amazon</span>
-      <h1 id="hero-title">Loading…</h1>
-      <p class="lead" id="hero-lead"></p>
-      <!-- фиксированные размеры для лучшего LCP/CLS -->
-      <img id="hero-img" src="" alt="Hero cover" width="800" height="1200" decoding="async" />
-      <!-- по умолчанию «капсула»; можно накинуть .cta-outline / .cta-soft / .cta-vertical -->
-      <a id="hero-cta" class="cta" href="#" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
-    </section>
-  </main>
-
-  <!-- Link strip -->
-  <div class="strip">
-    <div class="inner">
-      <a id="link-amazon" class="chip" href="#" target="_blank" rel="nofollow noopener">
-        <img src="assets/logos/amazon.svg" alt="Amazon" width="20" height="20" loading="lazy" decoding="async" onerror="this.style.display='none'"> Amazon
-      </a>
-      <a id="link-tiktok" class="chip" href="#" target="_blank" rel="nofollow noopener">
-        <img src="assets/logos/tiktok.svg" alt="TikTok" width="20" height="20" loading="lazy" decoding="async" onerror="this.style.display='none'"> TikTok
-      </a>
-    </div>
-  </div>
-
-  <!-- Grid -->
-  <section class="container" aria-label="Books">
-    <div id="grid" class="grid"></div>
-  </section>
-
-  <!-- Footer -->
-  <footer>© <span id="year"></span> Aleri Books · <a href="/privacy">Privacy</a></footer>
-
-  <!-- Modal -->
-  <dialog class="modal" id="modal">
-    <div class="sheet">
-      <div class="sheet-head">
-        <strong id="m-title">Book title</strong>
-        <button id="m-close" class="ghost" type="button">Close</button>
-      </div>
-      <div class="sheet-body">
-        <img id="m-cover" src="" alt="Book image" decoding="async" />
-        <p id="m-desc" class="desc"></p>
-        <div id="m-thumbs" class="thumbs"></div>
-        <div class="actions">
-          <a id="m-buy-pb" class="cta" target="_blank" rel="nofollow noopener">📘 Paperback</a>
-          <a id="m-buy-hc" class="cta ghost" target="_blank" rel="nofollow noopener">📗 Hardcover</a>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- Sticky CTA (на мобилке) -->
-  <a href="#" class="cta cta--sticky cta-soft" target="_blank" rel="nofollow noopener">📖 Get it on Amazon</a>
-
-  <script src="app.js" defer></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hey Dad, Let&apos;s Talk! — Memory Journal by Aleri Lizaro</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

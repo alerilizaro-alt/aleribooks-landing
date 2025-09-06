@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/go/amazon",
-      "destination": "https://www.amazon.com/Hey-Dad-Lets-Talk-Stories/dp/B0FPF71CQ8",
-      "permanent": false
-    }
-  ]
-}

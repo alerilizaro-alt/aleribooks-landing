@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+<script>
+!function(w,d,t){var q=w.ttq=w.ttq||[];q.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+q.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat([].slice.call(arguments,0)));};};
+for(var i=0;i<q.methods.length;i++)q.setAndDefer(q,q.methods[i]);
+q.instance=function(t){var e=q._i[t]||[];for(var n=0;n<q.methods.length;n++)q.setAndDefer(e,q.methods[n]);return e;};
+q.load=function(t,e){var n="https://analytics.tiktok.com/i18n/pixel/events.js";q._i=q._i||{};q._i[t]=[];q._i[t]._u=n;q._t=q._t||{};q._t[t]=+new Date;q._o=q._o||{};q._o[t]=e||{};
+var s=d.createElement("script");s.type="text/javascript";s.async=!0;s.src=n+"?sdkid="+t+"&lib=ttq";var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x);};
+}(window,document,'ttq');
+ttq.load('CD2UNQ33C77U0G6NU3BL0');  // ← твой Pixel ID
+ttq.page();                 // отправит PageView
+</script>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

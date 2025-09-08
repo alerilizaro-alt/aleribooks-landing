@@ -27,5 +27,24 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+(function () {
+  // не шлём события с локалки
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+
+  // глобально ловим клики по ссылкам, ведущим на Amazon
+  document.addEventListener('click', function (e) {
+    const a = e.target && e.target.closest && e.target.closest('a[href*="amazon"]');
+    if (!a) return;
+    try {
+      window.ttq && window.ttq.track('ClickButton', {
+        button: 'amazon',
+        url: a.href,
+        book: document.title
+      });
+    } catch (_) {}
+  }, { capture: true });
+})();
+</script>
   </body>
 </html>

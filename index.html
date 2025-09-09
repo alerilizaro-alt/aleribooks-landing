@@ -5,35 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hey Dad, Let&apos;s Talk! — Memory Journal by Aleri Lizaro</title>
 
-  <!-- TikTok Pixel (deterministic pre-init) -->
+  <!-- TikTok Pixel: single loader (no direct <script src=events.js>) -->
   <script>
-  (function (w, d, lib, id) {
-    // 1) Глобальный контейнер очереди
-    var q = w[lib] = w[lib] || [];
-    q.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
-    q.setAndDefer = function (obj, method) { obj[method] = function(){ obj.push([method].concat([].slice.call(arguments,0))); }; };
-    for (var i = 0; i < q.methods.length; i++) q.setAndDefer(q, q.methods[i]);
-
-    // 2) Критично: заранее создаём структуры для конкретного Pixel ID
-    q._i = q._i || {};
-    q._t = q._t || {};
-    q._o = q._o || {};
-    q._i[id] = q._i[id] || [];
-    q._i[id]._u = "https://analytics.tiktok.com/i18n/pixel/events.js";
-    q._t[id] = +new Date();
-    q._o[id] = q._o[id] || {};
-
-    // 3) Сохраняем ID (на будущее) и кидаем базовое событие в очередь
-    q.__active_id__ = id;
-  })(window, document, "ttq", "D2VA91BC77UD68QFAUFG");
+  !function(w,d,t){
+    var q=w.ttq=w.ttq||[];
+    q.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"];
+    q.setAndDefer=function(a,b){a[b]=function(){a.push([b].concat([].slice.call(arguments,0)));};};
+    for(var i=0;i<q.methods.length;i++){q.setAndDefer(q,q.methods[i]);}
+    q.instance=function(a){var e=q._i[a]||[];for(var n=0;n<q.methods.length;n++){q.setAndDefer(e,q.methods[n]);}return e;};
+    q.load=function(a,e){
+      var n="https://analytics.tiktok.com/i18n/pixel/events.js";
+      q._i=q._i||{};q._i[a]=[];q._i[a]._u=n;
+      q._t=q._t||{};q._t[a]=+new Date;
+      q._o=q._o||{};q._o[a]=e||{};
+      var s=d.createElement("script");s.type="text/javascript";s.async=true;s.src=n+"?sdkid="+a+"&lib="+t;
+      var x=d.getElementsByTagName("script")[0];x.parentNode.insertBefore(s,x);
+    };
+  }(window,document,"ttq");
+  ttq.load("D2VA91BC77UD68QFAUFG");
+  ttq.page();
   </script>
-  <!-- Подключаем SDK явно; он найдёт уже подготовленный ttq/_i/_t/_o -->
-  <script async src="https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=D2VA91BC77UD68QFAUFG&lib=ttq"></script>
-  <!-- Ставим PageView в очередь (SDK подхватит, когда загрузится) -->
-  <script>ttq.page();</script>
   <!-- /TikTok Pixel -->
 </head>
-
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
